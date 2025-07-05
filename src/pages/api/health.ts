@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { db } from "@/lib/db";
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,10 +6,7 @@ export default async function handler(
 ) {
   // Configure CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS"
-  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
   // Handle preflight requests
@@ -23,31 +19,18 @@ export default async function handler(
   }
 
   try {
-    const icons = await db.icon.findMany({
-      select: {
-        id: true,
-        name: true,
-        category: true,
-        tags: true,
-        description: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-      orderBy: {
-        name: "asc",
-      },
-    });
-
     return res.status(200).json({
       success: true,
-      data: icons,
-      count: icons.length,
+      message: "SVGStorm API is running successfully",
+      timestamp: new Date().toISOString(),
+      status: "healthy",
     });
   } catch (error) {
-    console.error("Error fetching icons:", error);
+    console.error("Health check error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
+      status: "unhealthy",
     });
   }
 }
