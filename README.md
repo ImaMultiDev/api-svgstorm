@@ -1,40 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 🌩️ SVGStorm API
 
-## Getting Started
+**Backend de SVGStorm:** API REST profesional para servir iconos SVG personalizados.
+Construido con **Next.js (Pages Router), Prisma y PostgreSQL.**
 
-First, run the development server:
+---
+
+## Descripción
+
+Este proyecto proporciona un **servicio de iconos SVG dinámicos** a través de una API REST conectada a PostgreSQL.
+
+La API es parte del monorepo SVGStorm y está optimizada para trabajar en entornos locales y producción (Railway).
+
+---
+
+## Tecnologías
+
+- Next.js 15 (Pages Router)
+- Prisma ORM
+- PostgreSQL (Railway)
+- TypeScript
+- pnpm Workspaces
+- Turborepo
+
+---
+
+## Instalación
+
+### 1. Clonar el repositorio:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <REPO_URL>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Instalar dependencias:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### 3. Configurar la base de datos:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+Crea un archivo `.env.local` en la raíz de `api-svgstorm` con tu conexión a PostgreSQL.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Ejemplo para desarrollo local:
 
-## Learn More
+```bash
+DATABASE_URL="postgresql://postgres:123456@localhost:5433/svgstorm_db?schema=public"
+```
 
-To learn more about Next.js, take a look at the following resources:
+Ejemplo para Railway (desarrollo remoto desde local):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+```bash
+DATABASE_URL="(tu DATABASE_PUBLIC_URL de Railway)"
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ejemplo para producción en Railway:
 
-## Deploy on Vercel
+```bash
+DATABASE_URL="postgresql://postgres:mNmEqdXWnFcpnbMEdbtiptAWTYvvEjRQ@postgres.railway.internal:5432/railway"
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+### 4. Configurar la base de datos:
+
+```bash
+pnpm prisma migrate dev --name init
+```
+
+---
+
+### 5. Poblar la base de datos con datos de ejemplo:
+
+```bash
+pnpm db:seed
+```
+
+---
+
+### 6. Levantar la API:
+
+```bash
+pnpm dev
+```
+
+La API estará disponible en:
+
+```
+http://localhost:3000/api/icons
+```
+
+---
+
+## Endpoints disponibles
+
+### Obtener todos los iconos:
+
+```http
+GET /api/icons
+```
+
+Devuelve la lista completa de iconos disponibles.
+
+---
+
+### Obtener un icono por nombre:
+
+```http
+GET /api/icons/:name
+```
+
+Devuelve el SVG correspondiente al nombre especificado.
+
+---
+
+## Despliegue
+
+El proyecto está preparado para desplegar en Railway y conectar directamente a la base de datos a través de la URL privada sin egress fees.
+
+---
+
+## Buenas prácticas implementadas:
+
+- Conexión PostgreSQL segura por entorno.
+- Arquitectura escalable y profesional.
+- Scripts para migración, generación y seed de base de datos.
+- Código limpio con TypeScript estricto.
+
+---
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la licencia MIT.  
+Puedes utilizar, modificar y distribuir el código con libertad, siempre que conserves los avisos de copyright originales.
+
+Consulta el archivo [LICENSE](./LICENSE) para más información.
+
+---
